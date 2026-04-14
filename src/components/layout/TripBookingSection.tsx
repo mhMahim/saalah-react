@@ -14,7 +14,6 @@ import { useStateContext } from "@/hooks/useStateContext";
 import TripDetails from "./TripDetails";
 import WarningSection from "./WarningSection";
 import AvailableTripsSection from "./AvailableTripsSection";
-import Pagination from "../shared/Pagination";
 import TripCityInput, { type SelectedLocation } from "../shared/TripCityInput";
 import axios from "axios";
 import toast from "react-hot-toast";

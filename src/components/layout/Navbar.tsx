@@ -19,7 +19,7 @@ const Navbar = () => {
   const { language, setLanguage, t } = useLanguageContext();
   const [isScroll, setIsScroll] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const { isLoggedIn, setState, userData } = useStateContext();
+  const { isLoggedIn, setState, userData, systemSettingsData } = useStateContext();
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -46,6 +46,8 @@ const Navbar = () => {
     };
   }, [pathname]);
 
+  const title = systemSettingsData?.data?.title || "Logo";
+
   return (
     <>
       <header
@@ -64,7 +66,7 @@ const Navbar = () => {
           })}
         >
           <Link to="/" className="text-xl block">
-            {t("nav.logo")}
+            {title}
           </Link>
           <div className="flex gap-3 sm:gap-4 lg:gap-5">
             {/* Language Switcher */}

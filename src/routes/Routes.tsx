@@ -7,6 +7,8 @@ import PaymentConfirmationPage from "@/pages/public/PaymentConfirmationPage";
 import { createBrowserRouter } from "react-router";
 import ErrorPage from "@/pages/Error/ErrorPage";
 import MainLayout from "@/layouts/MainLayout";
+import ContactUsPage from "@/pages/public/ContactUsPage";
+import RequestQuotePage from "@/pages/public/RequestQuotePage";
 
 export const routes = createBrowserRouter([
   {
@@ -33,6 +35,14 @@ export const routes = createBrowserRouter([
       {
         path: "booking/payment-confirmation",
         element: <PaymentConfirmationPage />,
+      },
+      {
+        path: "contact-us",
+        element: <ContactUsPage />,
+      },
+      {
+        path: "request-quote",
+        element: <RequestQuotePage />,
       },
     ],
   },

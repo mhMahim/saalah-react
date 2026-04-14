@@ -20,7 +20,7 @@ export const LanguageContextProvider = ({
 }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     const stored = localStorage.getItem(STORAGE_KEY) as Language | null;
-    return stored === "en" || stored === "fr" ? stored : "en";
+    return stored === "en" || stored === "fr" ? stored : "fr";
   });
 
   const setLanguage = (lang: Language) => {

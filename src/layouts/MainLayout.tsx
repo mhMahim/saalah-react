@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import Navbar from "@/components/layout/Navbar";
 import { useEffect } from "react";
 import { useLocation } from "react-router";
+import Footer from "@/components/layout/Footer";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -26,6 +27,7 @@ const MainLayout = () => {
       <main>
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 };
