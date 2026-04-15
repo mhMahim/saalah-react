@@ -1,15 +1,19 @@
 // import Footer from "@/components/layout/Footer";
+import axios from "axios";
 import Container from "@/components/shared/Container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguageContext } from "@/hooks/useLanguageContext";
 import { useStateContext } from "@/hooks/useStateContext";
 import { Mail, Phone, Send } from "lucide-react";
-import type { FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
+import toast from "react-hot-toast";
 
 const ContactUsPage = () => {
   const { t } = useLanguageContext();
+  const formRef = useRef<HTMLFormElement>(null);
   const { systemSettingsData } = useStateContext();
+  const [isPending, setIsPending] = useState(false);
 
   const contactEmail =
     systemSettingsData?.data?.contact_email ||
@@ -20,8 +24,34 @@ const ContactUsPage = () => {
     systemSettingsData?.data?.phone ||
     "not available";
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      name: String(formData.get("name") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim(),
+      phone: String(formData.get("phone") ?? "").trim(),
+      message: String(formData.get("message") ?? "").trim(),
+    };
+
+    try {
+      setIsPending(true);
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/contact/store`,
+        payload,
+      );
+
+      toast.success(response?.data?.message ?? "Message sent successfully!");
+      formRef.current?.reset();
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ??
+          "Failed to send your message. Please try again.",
+      );
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -95,6 +125,7 @@ const ContactUsPage = () => {
             </aside>
 
             <form
+              ref={formRef}
               onSubmit={handleSubmit}
               className="rounded-2xl sm:rounded-3xl border-2 border-dashed border-[#DFE3E8] bg-white p-4 sm:p-5 lg:p-6"
             >
@@ -175,10 +206,11 @@ const ContactUsPage = () => {
               <Button
                 type="submit"
                 variant="noStyle"
-                className="mt-4 sm:mt-5 h-11 sm:h-12 rounded-lg bg-[#122464] px-5 text-white font-poppins font-semibold text-sm sm:text-base hover:bg-[#122464]/90"
+                disabled={isPending}
+                className="mt-4 sm:mt-5 h-11 sm:h-12 rounded-lg bg-[#122464] px-5 text-white font-poppins font-semibold text-sm sm:text-base hover:bg-[#122464]/90 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <Send className="size-4.5" strokeWidth={1.8} />
-                {t("contact.form.submit")}
+                {isPending ? "Sending..." : t("contact.form.submit")}
               </Button>
             </form>
           </div>

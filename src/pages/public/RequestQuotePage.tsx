@@ -1,13 +1,17 @@
+import axios from "axios";
 import Container from "@/components/shared/Container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguageContext } from "@/hooks/useLanguageContext";
 import { ImageUp, PackageCheck, Send, X } from "lucide-react";
+import toast from "react-hot-toast";
 import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
 const RequestQuotePage = () => {
   const { t } = useLanguageContext();
+  const formRef = useRef<HTMLFormElement>(null);
   const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
+  const [isPending, setIsPending] = useState(false);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
   const syncPhotoInputFiles = (files: File[]) => {
@@ -50,15 +54,56 @@ const RequestQuotePage = () => {
     syncPhotoInputFiles([]);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const payload = new FormData();
+
+    payload.append("name", String(formData.get("name") ?? "").trim());
+    payload.append("phone", String(formData.get("phone") ?? "").trim());
+    payload.append(
+      "departure_city",
+      String(formData.get("departureCity") ?? "").trim(),
+    );
+    payload.append(
+      "destination_city",
+      String(formData.get("destinationCity") ?? "").trim(),
+    );
+    payload.append(
+      "item_description",
+      String(formData.get("itemDescription") ?? "").trim(),
+    );
+    payload.append("message", String(formData.get("message") ?? "").trim());
+
+    selectedPhotos.forEach((file) => {
+      payload.append("images[]", file);
+    });
+
+    try {
+      setIsPending(true);
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/quote/store`,
+        payload,
+      );
+
+      toast.success(
+        response?.data?.message ?? "Quote request sent successfully!",
+      );
+      formRef.current?.reset();
+      handleClearPhotos();
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ??
+          "Failed to send your quote request. Please try again.",
+      );
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
     <section className="relative overflow-hidden">
-      <div className="pointer-events-none absolute -left-28 -top-24 size-72 rounded-full bg-[#122464]/7 blur-3xl" />
-      <div className="pointer-events-none absolute -right-28 bottom-0 size-80 rounded-full bg-[#0E9F6E]/8 blur-3xl" />
-
       <Container className="py-7 sm:py-10 lg:py-14">
         <div className="mx-auto max-w-6xl">
           <div className="mb-5 sm:mb-7 lg:mb-8 text-center">
@@ -108,6 +153,7 @@ const RequestQuotePage = () => {
             </aside>
 
             <form
+              ref={formRef}
               onSubmit={handleSubmit}
               className="rounded-2xl sm:rounded-3xl border-2 border-dashed border-[#DFE3E8] bg-white p-4 sm:p-5 lg:p-6"
             >
@@ -304,10 +350,11 @@ const RequestQuotePage = () => {
               <Button
                 type="submit"
                 variant="noStyle"
-                className="mt-4 sm:mt-5 h-11 sm:h-12 rounded-lg bg-[#122464] px-5 text-white font-poppins font-semibold text-sm sm:text-base hover:bg-[#122464]/90"
+                disabled={isPending}
+                className="mt-4 sm:mt-5 h-11 sm:h-12 rounded-lg bg-[#122464] px-5 text-white font-poppins font-semibold text-sm sm:text-base hover:bg-[#122464]/90 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <Send className="size-4.5" strokeWidth={1.8} />
-                {t("requestQuote.form.submit")}
+                {isPending ? "Sending..." : t("requestQuote.form.submit")}
               </Button>
             </form>
           </div>
