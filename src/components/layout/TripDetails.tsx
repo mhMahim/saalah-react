@@ -62,6 +62,7 @@ const TripDetails = ({ selectedTrip, onBack }: TripDetailsProps) => {
 
   const trip: Trip | undefined = data?.data?.trip;
   const matchingTrips: Trip[] = data?.data?.matching_trips ?? [];
+  const priceComeFromSelectedTrip = data?.data?.trip?.wight_per_kg;
 
   const form = useForm<z.infer<typeof userInfoSchema>>({
     resolver: zodResolver(userInfoSchema),
@@ -90,7 +91,9 @@ const TripDetails = ({ selectedTrip, onBack }: TripDetailsProps) => {
       }))
     : [];
 
-  const pricePerKg = parseFloat(priceData?.weight_per_kg_price ?? "0");
+  const pricePerKg = parseFloat(
+    priceComeFromSelectedTrip ?? priceData?.weight_per_kg_price ?? "0",
+  );
   const basePrice = Math.max(pricePerKg * weight, 10);
   const serviceFee = parseFloat(priceData?.service_fee ?? "0");
   const totalServiceFee = serviceFee * weight;
