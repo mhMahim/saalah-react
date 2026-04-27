@@ -96,7 +96,7 @@ const TripDetails = ({ selectedTrip, onBack }: TripDetailsProps) => {
   );
   const basePrice = Math.max(pricePerKg * weight, 10);
   const serviceFee = parseFloat(priceData?.service_fee ?? "0");
-  const totalServiceFee = serviceFee * weight;
+  const totalServiceFee = (serviceFee * basePrice) / 100;
   const pickupFee = parseFloat(priceData?.pickup_fee ?? "0");
   const extraBaggageFee = extraBaggage ? pickupFee : 0;
   const totalPrice = basePrice + totalServiceFee + extraBaggageFee;
