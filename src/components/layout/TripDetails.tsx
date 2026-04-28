@@ -170,10 +170,69 @@ const TripDetails = ({ selectedTrip, onBack }: TripDetailsProps) => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 flex items-center justify-center min-h-64">
-        <span className="text-[#637381] text-base">
-          Loading trip details...
-        </span>
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 flex flex-col gap-4 sm:gap-5 lg:gap-6 shadow-2xl">
+        <div className="animate-pulse flex flex-col gap-4 sm:gap-5">
+          <div className="h-5 w-28 sm:w-36 bg-[#F4F6F8] rounded-md" />
+
+          <div className="bg-[#122464] rounded-xl sm:rounded-tl-2xl sm:rounded-tr-2xl sm:rounded-bl-sm sm:rounded-br-sm p-4 sm:p-5 lg:p-6 flex flex-col gap-4">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:gap-6">
+              <div className="h-6 w-40 sm:w-56 bg-[#1B2E78] rounded-md" />
+              <div className="h-5 w-5 sm:w-6 lg:w-8 bg-[#1B2E78] rounded-full" />
+              <div className="h-6 w-40 sm:w-56 bg-[#1B2E78] rounded-md" />
+            </div>
+            <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
+              <div className="h-4 w-28 sm:w-36 bg-[#1B2E78] rounded-md" />
+              <div className="h-4 w-16 sm:w-20 bg-[#1B2E78] rounded-md" />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <div className="h-5 w-24 sm:w-28 bg-[#F4F6F8] rounded-md" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-[#F4F6F8] border border-[#DFE3E8] rounded-lg sm:rounded-xl px-4 sm:px-5 lg:px-6 py-3 sm:py-4"
+                >
+                  <div className="h-4 w-24 sm:w-32 bg-[#E7E9F0] rounded-md" />
+                  <div className="mt-2 h-3 w-20 sm:w-28 bg-[#E7E9F0] rounded-md" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex flex-col gap-3 lg:flex-1">
+              <div className="h-5 w-36 bg-[#F4F6F8] rounded-md" />
+              <div className="bg-[#F4F6F8] border border-[#DFE3E8] rounded-lg sm:rounded-xl px-4 sm:px-5 lg:px-6 py-3 sm:py-4 h-14" />
+            </div>
+            <div className="flex flex-col gap-3 lg:flex-1">
+              <div className="h-5 w-28 bg-[#F4F6F8] rounded-md" />
+              <div className="bg-[#F4F6F8] border border-[#DFE3E8] rounded-lg sm:rounded-xl px-4 sm:px-5 lg:px-6 py-3 sm:py-4 h-14" />
+            </div>
+          </div>
+
+          <div className="bg-[#F4F6F8] rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 flex flex-col gap-3">
+            <div className="h-5 w-40 bg-[#E7E9F0] rounded-md" />
+            <div className="h-4 w-full bg-[#E7E9F0] rounded-md" />
+            <div className="h-4 w-full bg-[#E7E9F0] rounded-md" />
+            <div className="h-4 w-1/2 bg-[#E7E9F0] rounded-md" />
+          </div>
+
+          <div className="h-px bg-[#DFE3E8]" />
+
+          <div className="bg-[#F9FAFB] border border-dashed border-[#DFE3E8] rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 flex flex-col gap-4">
+            <div className="h-5 w-32 bg-[#F4F6F8] rounded-md" />
+            <div className="h-10 w-full bg-[#F4F6F8] rounded-lg" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="h-10 w-full bg-[#F4F6F8] rounded-lg" />
+              <div className="h-10 w-full bg-[#F4F6F8] rounded-lg" />
+            </div>
+            <div className="h-10 w-full bg-[#F4F6F8] rounded-lg" />
+          </div>
+
+          <div className="h-12 sm:h-14 lg:h-14.5 w-full bg-[#122464] rounded-lg sm:rounded-xl opacity-40" />
+        </div>
       </div>
     );
   }
@@ -196,7 +255,7 @@ const TripDetails = ({ selectedTrip, onBack }: TripDetailsProps) => {
   }
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 flex flex-col gap-4 sm:gap-5 lg:gap-6">
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 flex flex-col gap-4 sm:gap-5 lg:gap-6 shadow-2xl">
       <button
         onClick={onBack}
         className="flex items-center gap-2 sm:gap-3 text-[#637381] hover:text-[#212B36] transition-colors w-fit cursor-pointer"

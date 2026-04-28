@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { StateContextProvider } from "@/context/StateContext";
 import { LanguageContextProvider } from "@/context/LanguageContextProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
@@ -11,8 +12,10 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <LanguageContextProvider>
         <StateContextProvider>
-          {children}
-          <Toaster position="top-right" reverseOrder={false} />
+          <HelmetProvider>
+            {children}
+            <Toaster position="top-right" reverseOrder={false} />
+          </HelmetProvider>
         </StateContextProvider>
       </LanguageContextProvider>
     </QueryClientProvider>
