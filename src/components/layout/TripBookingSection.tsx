@@ -33,7 +33,7 @@ interface Trip {
   available_weight: string;
   date: string;
   time: string;
-  price_per_kg: number | null;
+  wight_per_kg: number | null;
   status: string;
 }
 

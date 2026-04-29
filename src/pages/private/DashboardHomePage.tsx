@@ -26,6 +26,7 @@ interface ApiTrip {
   date: string;
   time: string;
   status: string;
+  wight_per_kg: number;
 }
 
 interface ApiBookingTrip {
@@ -66,6 +67,7 @@ interface TripOffer {
   date: string;
   weight: string;
   time: string;
+  wight_per_kg: number;
 }
 
 const DashboardHomePage = () => {
@@ -118,6 +120,7 @@ const DashboardHomePage = () => {
     date: trip.date,
     weight: `${trip.available_weight} kg`,
     time: trip.time,
+    wight_per_kg: trip.wight_per_kg,
   }));
 
   const updateOfferStatus = (id: number, status: TripStatus) => {

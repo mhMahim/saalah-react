@@ -14,6 +14,7 @@ interface TripOfferCardProps {
   date: string;
   weight: string;
   time: string;
+  wight_per_kg: number;
 }
 
 const TripOfferCard: React.FC<TripOfferCardProps> = ({
@@ -25,6 +26,7 @@ const TripOfferCard: React.FC<TripOfferCardProps> = ({
   date,
   weight,
   time,
+  wight_per_kg,
 }) => {
   const getStatusStyles = () => {
     switch (status) {
@@ -42,36 +44,42 @@ const TripOfferCard: React.FC<TripOfferCardProps> = ({
   return (
     <div className="bg-[#F9FAFB] border border-[#DFE3E8] flex flex-col gap-4 p-4 sm:p-5 lg:p-6 rounded-lg sm:rounded-xl shadow-[0px_4px_8px_0px_rgba(191,191,191,0.08)]">
       {/* Route Row */}
-      <div className="flex items-start justify-between gap-3 w-full">
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1 min-w-0">
-          {/* Departure */}
-          <div className="flex flex-col min-w-0">
-            <p className="font-poppins text-xs sm:text-sm text-[#637381] leading-5 truncate">
-              {departureCountry}
-            </p>
-            <p className="font-poppins font-semibold text-[#212B36] text-base sm:text-lg lg:text-xl leading-tight truncate">
-              {departureCity}
-            </p>
-          </div>
+      <div className="flex justify-between items-start gap-3">
+        <div className="flex flex-col items-start gap-2">
+          <span
+            className={`px-2.5 py-1 rounded-full font-poppins font-semibold text-xs sm:text-sm leading-5 shrink-0 ${getStatusStyles()}`}
+          >
+            {status}
+          </span>
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1 min-w-0">
+            {/* Departure */}
+            <div className="flex flex-col min-w-0">
+              <p className="font-poppins text-xs sm:text-sm text-[#637381] leading-5 truncate">
+                {departureCountry}
+              </p>
+              <p className="font-poppins font-semibold text-[#212B36] text-base sm:text-lg lg:text-xl leading-tight truncate">
+                {departureCity}
+              </p>
+            </div>
 
-          <ArrowIcon className="size-5 sm:size-6 lg:size-7 text-[#637381] shrink-0" />
+            <ArrowIcon className="size-5 sm:size-6 lg:size-7 text-[#637381] shrink-0" />
 
-          {/* Arrival */}
-          <div className="flex flex-col min-w-0">
-            <p className="font-poppins text-xs sm:text-sm text-[#637381] leading-5 truncate">
-              {arrivalCountry}
-            </p>
-            <p className="font-poppins font-semibold text-[#212B36] text-base sm:text-lg lg:text-xl leading-tight truncate">
-              {arrivalCity}
-            </p>
+            {/* Arrival */}
+            <div className="flex flex-col min-w-0">
+              <p className="font-poppins text-xs sm:text-sm text-[#637381] leading-5 truncate">
+                {arrivalCountry}
+              </p>
+              <p className="font-poppins font-semibold text-[#212B36] text-base sm:text-lg lg:text-xl leading-tight truncate">
+                {arrivalCity}
+              </p>
+            </div>
           </div>
         </div>
-
-        <span
-          className={`px-2.5 py-1 rounded-full font-poppins font-semibold text-xs sm:text-sm leading-5 shrink-0 ${getStatusStyles()}`}
-        >
-          {status}
-        </span>
+        <div className="">
+          <p className="font-poppins font-bold text-[#122464] text-lg sm:text-xl xl:text-2xl leading-tight text-nowrap">
+            €{wight_per_kg}
+          </p>
+        </div>
       </div>
 
       {/* Divider */}

@@ -18,7 +18,7 @@ interface Trip {
   available_weight: string;
   date: string;
   time: string;
-  price_per_kg: number | null;
+  wight_per_kg: number | null;
   status: string;
 }
 
@@ -81,25 +81,32 @@ const AvailableTripsSection = ({
                 className="bg-[#F9FAFB] border border-[#DFE3E8] flex flex-col gap-4 p-4 sm:p-5 lg:p-6 rounded-lg sm:rounded-xl shadow-[0px_4px_8px_0px_rgba(191,191,191,0.08)] text-[#212B36] cursor-pointer hover:scale-102 transition-all duration-500 text-left"
               >
                 {/* Route */}
-                <div className="flex items-start justify-between gap-3 w-full">
-                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1 min-w-0">
-                    <div className="flex flex-col min-w-0">
-                      <p className="font-poppins text-xs sm:text-sm text-[#637381] leading-5 truncate">
-                        {trip.departureCity.country}
-                      </p>
-                      <p className="font-poppins font-semibold text-[#212B36] text-base sm:text-lg lg:text-xl leading-tight truncate">
-                        {trip.departureCity.city}
-                      </p>
+                <div className="flex justify-between">
+                  <div className="flex items-start justify-between gap-3 w-full">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1 min-w-0">
+                      <div className="flex flex-col min-w-0">
+                        <p className="font-poppins text-xs sm:text-sm text-[#637381] leading-5 truncate">
+                          {trip.departureCity.country}
+                        </p>
+                        <p className="font-poppins font-semibold text-[#212B36] text-base sm:text-lg lg:text-xl leading-tight truncate">
+                          {trip.departureCity.city}
+                        </p>
+                      </div>
+                      <ArrowIcon className="size-5 sm:size-6 lg:size-7 text-[#637381] shrink-0" />
+                      <div className="flex flex-col min-w-0">
+                        <p className="font-poppins text-xs sm:text-sm text-[#637381] leading-5 truncate">
+                          {trip.arrivalCity.country}
+                        </p>
+                        <p className="font-poppins font-semibold text-[#212B36] text-base sm:text-lg lg:text-xl leading-tight truncate">
+                          {trip.arrivalCity.city}
+                        </p>
+                      </div>
                     </div>
-                    <ArrowIcon className="size-5 sm:size-6 lg:size-7 text-[#637381] shrink-0" />
-                    <div className="flex flex-col min-w-0">
-                      <p className="font-poppins text-xs sm:text-sm text-[#637381] leading-5 truncate">
-                        {trip.arrivalCity.country}
-                      </p>
-                      <p className="font-poppins font-semibold text-[#212B36] text-base sm:text-lg lg:text-xl leading-tight truncate">
-                        {trip.arrivalCity.city}
-                      </p>
-                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <p className="font-poppins font-bold text-[#122464] text-lg sm:text-xl xl:text-2xl leading-tight text-nowrap">
+                      €{trip.wight_per_kg}
+                    </p>
                   </div>
                 </div>
 
