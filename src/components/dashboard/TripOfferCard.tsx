@@ -1,33 +1,51 @@
 "use client";
 
+import { useState } from "react";
 import { ArrowIcon, CalenderIcon, WatchIcon } from "@/assets/icons/icon";
+import UpdateTripDialog from "@/components/dialogs/UpdateTripDialog";
+import { useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 type TripStatus = "Approved" | "Pending" | "Rejected";
 
 interface TripOfferCardProps {
+  id: number;
   departureCity: string;
   departureCountry: string;
+  departureCountryCode: string;
   arrivalCity: string;
   arrivalCountry: string;
+  arrivalCountryCode: string;
   status: TripStatus;
-  onStatusChange?: (status: TripStatus) => void;
   date: string;
   weight: string;
+  weightValue: string;
   time: string;
   wight_per_kg: number;
+  tripsQueryKey: string;
 }
 
 const TripOfferCard: React.FC<TripOfferCardProps> = ({
+  id,
   departureCity,
   departureCountry,
+  departureCountryCode,
   arrivalCity,
   arrivalCountry,
+  arrivalCountryCode,
   status,
   date,
   weight,
+  weightValue,
   time,
   wight_per_kg,
+  tripsQueryKey,
 }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const queryClient = useQueryClient();
+
   const getStatusStyles = () => {
     switch (status) {
       case "Approved":
@@ -38,6 +56,36 @@ const TripOfferCard: React.FC<TripOfferCardProps> = ({
         return "text-[#B72136] bg-[#FFEBEE]";
       default:
         return "text-[#229A16] bg-[#E9FCD4]";
+    }
+  };
+
+  const handleDeleteTrip = async () => {
+    if (isDeleting) return;
+    const confirmed = window.confirm("Delete this trip?");
+    if (!confirmed) return;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please log in to delete trips.");
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      const response = await axios.delete(
+        `${import.meta.env.VITE_BASE_URL}/trips/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      toast.success(response?.data?.message ?? "Trip deleted successfully!");
+      queryClient.invalidateQueries({ queryKey: [tripsQueryKey] });
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message ?? "Failed to delete trip.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -105,6 +153,48 @@ const TripOfferCard: React.FC<TripOfferCardProps> = ({
           {weight}
         </p>
       </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <button
+          type="button"
+          onClick={() => setIsEditOpen(true)}
+          disabled={isDeleting}
+          className="h-9 sm:h-10 rounded-lg border border-[#DFE3E8] px-3 sm:px-4 font-poppins text-sm sm:text-base font-semibold text-[#212B36] disabled:opacity-60 cursor-pointer"
+        >
+          Edit Trip
+        </button>
+
+        <button
+          type="button"
+          onClick={handleDeleteTrip}
+          disabled={isDeleting}
+          className="h-9 sm:h-10 rounded-lg border border-[#FFBEC5] bg-[#FFEBEE] px-3 sm:px-4 font-poppins text-sm sm:text-base font-semibold text-[#B72136] disabled:opacity-60 cursor-pointer"
+        >
+          {isDeleting ? "Deleting..." : "Delete"}
+        </button>
+      </div>
+
+      <UpdateTripDialog
+        open={isEditOpen}
+        onOpenChange={setIsEditOpen}
+        tripId={id}
+        tripsQueryKey={tripsQueryKey}
+        initialValues={{
+          departureCity: {
+            city: departureCity,
+            country: departureCountry,
+            countryCode: departureCountryCode,
+          },
+          arrivalCity: {
+            city: arrivalCity,
+            country: arrivalCountry,
+            countryCode: arrivalCountryCode,
+          },
+          weight: weightValue,
+          date,
+          time,
+        }}
+      />
     </div>
   );
 };

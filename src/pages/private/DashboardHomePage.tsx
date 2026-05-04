@@ -61,11 +61,14 @@ interface TripOffer {
   id: number;
   departureCity: string;
   departureCountry: string;
+  departureCountryCode: string;
   arrivalCity: string;
   arrivalCountry: string;
+  arrivalCountryCode: string;
   status: TripStatus;
   date: string;
   weight: string;
+  weightValue: string;
   time: string;
   wight_per_kg: number;
 }
@@ -106,26 +109,21 @@ const DashboardHomePage = () => {
   const apiTrips: ApiTrip[] = tripsData?.data ?? [];
   const tripsPagination = tripsData?.pagination;
 
-  const [tripOfferOverrides, setTripOfferOverrides] = useState<
-    Record<number, TripStatus>
-  >({});
-
   const tripOffers: TripOffer[] = apiTrips.map((trip) => ({
     id: trip.id,
     departureCity: trip.departureCity.city,
     departureCountry: trip.departureCity.country,
+    departureCountryCode: trip.departureCity.countryCode,
     arrivalCity: trip.arrivalCity.city,
     arrivalCountry: trip.arrivalCity.country,
-    status: tripOfferOverrides[trip.id] ?? mapStatus(trip.status),
+    arrivalCountryCode: trip.arrivalCity.countryCode,
+    status: mapStatus(trip.status),
     date: trip.date,
     weight: `${trip.available_weight} kg`,
+    weightValue: String(trip.available_weight ?? ""),
     time: trip.time,
     wight_per_kg: trip.wight_per_kg,
   }));
-
-  const updateOfferStatus = (id: number, status: TripStatus) => {
-    setTripOfferOverrides((prev) => ({ ...prev, [id]: status }));
-  };
 
   return (
     <div className="">
@@ -299,9 +297,7 @@ const DashboardHomePage = () => {
                     <TripOfferCard
                       key={offer.id}
                       {...offer}
-                      onStatusChange={(status) =>
-                        updateOfferStatus(offer.id, status)
-                      }
+                      tripsQueryKey={`/trips?page=${tripsPage}`}
                     />
                   ))}
                 </div>
