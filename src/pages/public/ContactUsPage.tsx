@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguageContext } from "@/hooks/useLanguageContext";
 import { useStateContext } from "@/hooks/useStateContext";
-import { Mail, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
 import toast from "react-hot-toast";
 
@@ -23,6 +23,7 @@ const ContactUsPage = () => {
     systemSettingsData?.data?.number ||
     systemSettingsData?.data?.phone ||
     "not available";
+  const contactAddress = systemSettingsData?.data?.address || "not available";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -120,6 +121,23 @@ const ContactUsPage = () => {
                       </span>
                     </span>
                   </a>
+
+                  <div className="rounded-xl border border-white/20 bg-white/8 backdrop-blur-xs p-4 flex items-start gap-3">
+                    <span className="mt-0.5 rounded-lg bg-white/15 p-2">
+                      <MapPin
+                        className="size-4.5 text-white"
+                        strokeWidth={1.8}
+                      />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-poppins text-xs uppercase tracking-[0.08em] text-[#C9D2EC] mb-1">
+                        {t("contact.info.address")}
+                      </span>
+                      <span className="block font-poppins text-sm sm:text-base font-medium text-white wrap-break-word">
+                        {contactAddress}
+                      </span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </aside>

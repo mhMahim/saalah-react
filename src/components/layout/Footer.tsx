@@ -2,7 +2,7 @@ import { useStateContext } from "@/hooks/useStateContext";
 import { useLanguageContext } from "@/hooks/useLanguageContext";
 import { Link } from "react-router";
 import Container from "../shared/Container";
-import { ArrowRight, Mail, Phone } from "lucide-react";
+import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 
 const Footer = () => {
   const { systemSettingsData } = useStateContext();
@@ -13,10 +13,10 @@ const Footer = () => {
     systemSettingsData?.data?.email ||
     "not available";
   const contactPhone =
-    systemSettingsData?.data?.contact_phone ||
     systemSettingsData?.data?.number ||
     systemSettingsData?.data?.phone ||
     "not available";
+  const contactAddress = systemSettingsData?.data?.address || "not available";
 
   const title = systemSettingsData?.data?.title || "itinexp";
 
@@ -27,13 +27,32 @@ const Footer = () => {
       <Container>
         <div className="upper-portion py-6 sm:py-8 lg:py-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr_1fr] gap-3 sm:gap-4 lg:gap-5">
-            <div className="rounded-2xl border border-[#2E3A67] bg-white/4 p-4 sm:p-5">
-              <div className="font-poppins text-[#EAF0FF] text-lg sm:text-xl font-semibold mb-2">
-                {title}
+            <div className="rounded-2xl border border-[#2E3A67] bg-white/4 p-4 sm:p-5 space-y-4">
+              <div className="">
+                <div className="font-poppins text-[#EAF0FF] text-lg sm:text-xl font-semibold mb-2">
+                  {title}
+                </div>
+                <p className="font-poppins text-xs sm:text-sm text-[#B8C6EA] leading-6 max-w-md">
+                  {t("footer.brandDescription")}
+                </p>
               </div>
-              <p className="font-poppins text-xs sm:text-sm text-[#B8C6EA] leading-6 max-w-md">
-                {t("footer.brandDescription")}
-              </p>
+
+              <div className="flex items-start gap-2.5 rounded-lg border border-[#2F3E70] bg-white/3 px-3 py-2.5">
+                <span className="rounded-md bg-white/10 p-1.5 mt-0.5">
+                  <MapPin
+                    className="size-3.5 text-[#D6DDF4]"
+                    strokeWidth={1.8}
+                  />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[11px] uppercase tracking-[0.08em] text-[#8EA0D6]">
+                    {t("footer.address")}
+                  </span>
+                  <span className="block text-xs sm:text-sm text-[#EDF1FF] font-medium wrap-break-word">
+                    {contactAddress}
+                  </span>
+                </span>
+              </div>
             </div>
 
             <div className="rounded-2xl border border-[#2E3A67] bg-white/4 p-4 sm:p-5">
