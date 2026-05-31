@@ -18,7 +18,7 @@ const Footer = () => {
     systemSettingsData?.data?.phone ||
     "not available";
 
-  const title = systemSettingsData?.data?.title || "Logo";
+  const title = systemSettingsData?.data?.title || "itinexp";
 
   return (
     <footer className="relative bg-[#080F2A] text-[#919EAB] text-sm overflow-hidden">

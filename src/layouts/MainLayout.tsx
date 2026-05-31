@@ -13,15 +13,13 @@ const MainLayout = () => {
   return (
     <>
       <Helmet>
-        <title>{systemSettingsData?.data?.title || "Itinexp"}</title>
-        {systemSettingsData?.data?.favicon && (
-          <link
-            rel="icon"
-            type="image/png"
-            href={`${systemSettingsData.data.favicon}?v=${Date.now()}`}
-            key={systemSettingsData.data.favicon}
-          />
-        )}
+        <title>{systemSettingsData?.data?.title}</title>
+        <link
+          rel="icon"
+          type="image/png"
+          href={`${systemSettingsData?.data?.favicon}?v=${Date.now()}`}
+          key={systemSettingsData?.data?.favicon}
+        />
       </Helmet>
       <div
         className={`font-poppins min-h-screen ${isHome ? "bg-white" : "bg-[#F4F6F8]"}`}

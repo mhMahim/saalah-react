@@ -19,11 +19,18 @@ const Navbar = () => {
   const { language, setLanguage, t } = useLanguageContext();
   const [isScroll, setIsScroll] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const { isLoggedIn, setState, userData, systemSettingsData } = useStateContext();
+  const [logoError, setLogoError] = useState(false);
+  const { isLoggedIn, setState, userData, systemSettingsData } =
+    useStateContext();
   const location = useLocation();
   const pathname = location.pathname;
 
   const imgUserAvatar = "https://i.ibb.co.com/XkYLH2xR/avatar.png";
+  const logoSrc = systemSettingsData?.data?.logo;
+
+  useEffect(() => {
+    setLogoError(false);
+  }, [logoSrc]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,8 +53,6 @@ const Navbar = () => {
     };
   }, [pathname]);
 
-  const title = systemSettingsData?.data?.title || "Logo";
-
   return (
     <>
       <header
@@ -66,7 +71,19 @@ const Navbar = () => {
           })}
         >
           <Link to="/" className="text-xl block">
-            {title}
+            {logoSrc && !logoError ? (
+              <img
+                alt="Logo"
+                src={logoSrc}
+                onError={() => setLogoError(true)}
+                className="h-10 sm:h-11 lg:h-12 w-auto object-contain"
+              />
+            ) : (
+              <div
+                className="h-10 sm:h-11 lg:h-12 w-28 sm:w-32 lg:w-36 rounded bg-[#dfe3e886] animate-pulse"
+                aria-hidden="true"
+              />
+            )}
           </Link>
           <div className="flex gap-3 sm:gap-4 lg:gap-5">
             {/* Language Switcher */}
